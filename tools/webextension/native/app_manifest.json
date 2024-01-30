@@ -1,0 +1,7 @@
+{
+  "name": "averox",
+  "description": "Averox Uploads",
+  "path": "/usr/local/share/docspell/native.py",
+  "type": "stdio",
+  "allowed_extensions": [ "docspell@eikek.github.io" ]
+}

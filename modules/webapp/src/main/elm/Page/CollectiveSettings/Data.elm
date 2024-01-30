@@ -1,0 +1,90 @@
+{-
+   Copyright 2020 Eike K. & Contributors
+
+   SPDX-License-Identifier: AGPL-3.0-or-later
+-}
+
+
+module Page.CollectiveSettings.Data exposing
+    ( FormState(..)
+    , Model
+    , Msg(..)
+    , Tab(..)
+    , init
+    )
+
+import Api.Model.BasicResult exposing (BasicResult)
+import Api.Model.CollectiveSettings exposing (CollectiveSettings)
+import Api.Model.ItemInsights exposing (ItemInsights)
+import Comp.CollectiveSettingsForm
+import Comp.ShareManage
+import Comp.SourceManage
+import Comp.UserManage
+import Data.Flags exposing (Flags)
+import Http
+
+
+type alias Model =
+    { currentTab : Maybe Tab
+    , sourceModel : Comp.SourceManage.Model
+    , userModel : Comp.UserManage.Model
+    , settingsModel : Comp.CollectiveSettingsForm.Model
+    , shareModel : Comp.ShareManage.Model
+    , insights : ItemInsights
+    , formState : FormState
+    }
+
+
+type FormState
+    = InitialState
+    | SubmitSuccessful
+    | SubmitFailed String
+    | SubmitError Http.Error
+
+
+init : Flags -> ( Model, Cmd Msg )
+init flags =
+    let
+        ( sm, sc ) =
+            Comp.SourceManage.init flags
+
+        ( cm, cc ) =
+            Comp.CollectiveSettingsForm.init flags Api.Model.CollectiveSettings.empty
+
+        ( shm, shc ) =
+            Comp.ShareManage.init flags
+    in
+    ( { currentTab = Just InsightsTab
+      , sourceModel = sm
+      , userModel = Comp.UserManage.emptyModel
+      , shareModel = shm
+      , settingsModel = cm
+      , insights = Api.Model.ItemInsights.empty
+      , formState = InitialState
+      }
+    , Cmd.batch
+        [ Cmd.map SourceMsg sc
+        , Cmd.map SettingsFormMsg cc
+        , Cmd.map ShareMsg shc
+        ]
+    )
+
+
+type Tab
+    = SourceTab
+    | UserTab
+    | InsightsTab
+    | SettingsTab
+    | ShareTab
+
+
+type Msg
+    = SetTab Tab
+    | SourceMsg Comp.SourceManage.Msg
+    | UserMsg Comp.UserManage.Msg
+    | SettingsFormMsg Comp.CollectiveSettingsForm.Msg
+    | Init
+    | GetInsightsResp (Result Http.Error ItemInsights)
+    | CollectiveSettingsResp (Result Http.Error CollectiveSettings)
+    | SubmitResp (Result Http.Error BasicResult)
+    | ShareMsg Comp.ShareManage.Msg

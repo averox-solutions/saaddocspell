@@ -1,0 +1,25 @@
+{
+  "AveroxName": {
+    "message": "Averox Upload Helper",
+    "description": "Name of the Averox"
+  },
+
+  "AveroxDescription": {
+    "message": "Lädt Dateien vom Browser zu Averox.",
+    "description": "Description of the Averox."
+  },
+
+  "notificationTitle": {
+    "message": "Averox Antwort",
+    "description": "Title of the click notification."
+  },
+
+  "notificationSuccess": {
+    "message": "Die Datei wurde zu Averox kopiert.",
+    "description": "Tells the user about the success of the upload."
+  },
+  "notificationFailure": {
+    "message": "Die Datei konnte nicht zu Averox kopiert werden. Ist es evtl. keine PDF Datei?",
+    "description": "Tells the user about the failure of the upload."
+  }
+}

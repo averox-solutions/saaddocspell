@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "parts/meta.html" %}
+        <title>Averox – Simple document organizer</title>
+        <link rel="stylesheet" href="/styles.css">
+        <script type="text/javascript" src="/js/bundle.js"></script>
+    </head>
+    <body id="app">
+
+
+        <script type="application/javascript">
+         var elmFlags = {
+             "version": "{{ config.extra.version }}"
+         };
+         var elmApp = Elm.Main.init({
+             node: document.getElementById("app"),
+             flags: elmFlags
+         });
+        </script>
+
+        {% include "parts/fathom.html" %}
+    </body>
+</html>
